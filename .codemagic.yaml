@@ -7,7 +7,7 @@ workflows:
       xcode: latest
       cocoapods: default
       vars:
-        BUNDLE_ID: "com.example.webviewapp"
+        BUNDLE_ID: "com.example.noord"
         APP_NAME: "Webview App"
     scripts:
       - name: Install dependencies
