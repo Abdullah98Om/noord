@@ -1,21 +1,27 @@
 workflows:
-  ios-release-workflow:
-    name: Build iOS IPA
-    max_build_duration: 60
-    environment:
-      flutter: stable
-      xcode: latest
-      cocoapods: default
-      vars:
-        BUNDLE_ID: "com.example.noord"
-        APP_NAME: "Webview App"
+  ios_release:
+    name: Build iOS Release
+    max_build_duration: 120
+    instance_type: mac_mini
+    env:
+      FLUTTER_CHANNEL: stable
+    setup:
+      # تحديد النسخة الصحيحة من Flutter SDK
+      flutter:
+        channel: stable
     scripts:
+      # تثبيت التبعيات إذا لزم الأمر
       - name: Install dependencies
         script: |
           flutter pub get
-      - name: Flutter build ios
-        script: |
-          flutter build ios --release --no-codesign
+    ios:
+      # لا حاجة للتوقيع في هذه الحالة
+      export_method: app-store # أو adhoc حسب الحاجة
+      build_mode: release
+      codesign: false
     artifacts:
-      - build/ios/iphoneos/*.ipa
-      - build/ios/iphoneos/Runner.app
+      - build/ios/ipa/*.ipa
+    publish:
+      # يمكنك نشر الـ IPA إلى Codemagic Artifacts إذا كنت بحاجة
+      artifacts:
+        - build/ios/ipa/*.ipa
