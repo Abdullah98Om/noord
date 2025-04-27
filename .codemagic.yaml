@@ -1,0 +1,21 @@
+workflows:
+  ios-release-workflow:
+    name: Build iOS IPA
+    max_build_duration: 60
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+      vars:
+        BUNDLE_ID: "com.example.webviewapp"
+        APP_NAME: "Webview App"
+    scripts:
+      - name: Install dependencies
+        script: |
+          flutter pub get
+      - name: Flutter build ios
+        script: |
+          flutter build ios --release --no-codesign
+    artifacts:
+      - build/ios/iphoneos/*.ipa
+      - build/ios/iphoneos/Runner.app
